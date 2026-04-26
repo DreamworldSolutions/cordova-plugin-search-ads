@@ -1,5 +1,4 @@
 #import "CDVSearchAdsTool.h"
-#import <iAd/iAd.h>
 #import <AdServices/AdServices.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 
@@ -29,36 +28,7 @@
             complete(nil, error);
         }
     } else {
-        BOOL enable = true;
-        if (@available(iOS 14.0, *)) {
-            ATTrackingManagerAuthorizationStatus status = [ATTrackingManager trackingAuthorizationStatus];
-            enable = status == ATTrackingManagerAuthorizationStatusNotDetermined || status == ATTrackingManagerAuthorizationStatusAuthorized;
-//            if (@available(iOS 14.5, *)) {
-//                enable = status == ATTrackingManagerAuthorizationStatusAuthorized;
-//            }
-        }
-
-        if (enable) {
-            if ([[ADClient sharedClient] respondsToSelector:@selector(requestAttributionDetailsWithBlock:)]) {
-                [[ADClient sharedClient] requestAttributionDetailsWithBlock:^(NSDictionary<NSString *,NSObject *> * _Nullable attributionDetails, NSError * _Nullable error) {
-                    if (error != nil) {
-                        complete(nil, error);
-                    } else {
-                        NSString *key = [attributionDetails allKeys].firstObject;
-                        if (key != nil) {
-                            NSDictionary *dict = (NSDictionary *)attributionDetails[key];
-                            complete(dict, nil);
-                        } else {
-                            complete(nil, [[NSError alloc] initWithDomain:@"app" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Data is Empty"}]);
-                        }
-                    }
-                }];
-            } else {
-                complete(nil, [[NSError alloc] initWithDomain:@"app" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"ADClient error"}]);
-            }
-        } else {
-            complete(nil, [[NSError alloc] initWithDomain:@"app" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"ATTracking Not Allowed"}]);
-        }
+        complete(nil, [[NSError alloc] initWithDomain:@"app" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"iOS 14.3+ required for Apple Search Ads attribution"}]);
     }
 }
 

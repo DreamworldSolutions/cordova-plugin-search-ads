@@ -35,11 +35,6 @@
 		<header-file src="src/ios/CDVSearchAdsTool.h" />
 		<source-file src="src/ios/CDVSearchAdsTool.m" />
 
-<!--		this is an optional framework, it should be added to the main config if necessary -->
-
-<!--		>=9.0 < 14.0   -->
-		<framework src="iAd.framework" weak="true"/>
-
 <!--		14.3>=     -->
 		<framework src="AdServices.framework" weak="true"/>
 
